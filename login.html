@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GMIT Student Info Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .student-photo {
+          width: 120px;
+          height: 120px;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+        .card-section-title {
+          font-weight: 600;
+          border-bottom: 1px solid #ccc;
+          margin-bottom: 10px;
+        }
+        @media print {
+        body * {
+            visibility: hidden;
+        }
+        #student-info, #student-info * {
+            visibility: visible;
+        }
+        #student-info {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+        .no-print {
+            display: none !important;
+        }
+    }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="images/GMIT.jpg" alt="GMIT" height="50">GMIT
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="faculty.html">Faculty</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="login.html">Student Login</a>
+                </li>
+                <li class="nav-item">
+                    <button id="theme-toggle" class="btn btn-sm btn-outline-light ms-2">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container my-5">
+    <!-- Search Form -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6">
+            <form id="usn-form" class="card p-4 shadow">
+                <h3 class="text-center mb-3"><i class="fas fa-search me-2"></i>Find Student</h3>
+                <div class="mb-3">
+                    <label for="usn" class="form-label">USN</label>
+                    <input type="text" id="usn" class="form-control" placeholder="e.g., 4GM21IS001" required>
+                </div>
+                <button type="submit" class="btn btn-info w-100">
+                    <i class="fas fa-search me-1"></i> Search
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Student Info -->
+    <div id="student-info" class="row d-none">
+        <div class="col-lg-12">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white d-flex justify-content-between">
+                    <h4 class="mb-0"><i class="fas fa-user-graduate me-2"></i>Student Information</h4>
+                    <button class="btn btn-sm btn-light" onclick="printStudentInfo()"><i class="fas fa-print"></i> Print</button>
+                </div>
+                <div class="card-body row">
+                    <!-- Left Section -->
+                    <div class="col-md-4 text-center">
+                        <h5 id="student-name">-</h5>
+                        <p class="text-muted">USN: <span id="student-usn">-</span></p>
+                    </div>
+
+                    <!-- Right Section -->
+                    <div class="col-md-8">
+                        <div class="row">
+                            <!-- Personal Info -->
+                            <div class="col-md-6">
+                                <div class="card-section-title">Personal Info</div>
+                                <ul class="list-unstyled">
+                                    <li><strong>DOB:</strong> <span id="dob">-</span></li>
+                                    <li><strong>Gender:</strong> <span id="gender">-</span></li>
+                                    <li><strong>Category:</strong> <span id="category">-</span></li>
+                                    <li><strong>Mobile:</strong> <span id="mobile">-</span></li>
+                                    <li><strong>Email:</strong> <span id="email">-</span></li>
+                                </ul>
+
+                                <div class="card-section-title mt-3">Addresses</div>
+                                <ul class="list-unstyled">
+                                    <li><strong>Current:</strong> <span id="current-address">-</span></li>
+                                    <li><strong>Permanent:</strong> <span id="permanent-address">-</span></li>
+                                </ul>
+                            </div>
+
+                            <!-- Academic Info -->
+                            <div class="col-md-6">
+                                <div class="card-section-title">Academic Info</div>
+                                <ul class="list-unstyled">
+                                    <li><strong>10th %:</strong> <span id="score10">-</span></li>
+                                    <li><strong>PU %:</strong> <span id="scorePu">-</span></li>
+                                    <li><strong>BE %:</strong> <span id="scoreBe">-</span></li>
+                                    <li><strong>CET Rank:</strong> <span id="cet-rank">-</span></li>
+                                    <li><strong>Backlogs:</strong> <span id="backlogs">-</span></li>
+                                </ul>
+
+                                <div class="card-section-title mt-3">CGPA by Semester</div>
+                                <ul class="list-unstyled">
+                                    <li>Sem 1: <span id="cgpa1">-</span></li>
+                                    <li>Sem 2: <span id="cgpa2">-</span></li>
+                                    <li>Sem 3: <span id="cgpa3">-</span></li>
+                                    <li>Sem 4: <span id="cgpa4">-</span></li>
+                                    <li>Sem 5: <span id="cgpa5">-</span></li>
+                                    <li>Sem 6: <span id="cgpa6">-</span></li>
+                                </ul>
+
+                                <p><strong>CGPA:</strong> <span id="avg-cgpa">-</span></p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <div class="card-section-title">Educational History</div>
+                            <ul class="list-unstyled">
+                                <li><strong>PU College:</strong> <span id="pu-college">-</span></li>
+                                <li><strong>SSLC School:</strong> <span id="sslc-school">-</span></li>
+                                <li><strong>YOP 10th:</strong> <span id="yop10">-</span></li>
+                                <li><strong>YOP 12th:</strong> <span id="yop12">-</span></li>
+                            </ul>
+                        </div>
+                    </div> <!-- End Right -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center py-3 mt-5 bg-dark text-white">
+    © 2025 GMIT | All rights reserved.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+<script>
+    function printStudentInfo() {
+        // Hide elements you don't want to print
+        document.querySelectorAll('.no-print').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // Print only the student info section
+        window.print();
+
+        // Restore hidden elements after printing
+        document.querySelectorAll('.no-print').forEach(el => {
+            el.style.display = '';
+        });
+    }
+</script>
+</body>
+</html>
